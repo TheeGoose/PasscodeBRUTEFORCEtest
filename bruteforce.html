@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brute Force Safe</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #output {
+            white-space: pre-wrap;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Brute Force Safe</h1>
+    <label for="passcode">Enter a passcode (digits only):</label>
+    <input type="text" id="passcode" maxlength="6">
+    <button onclick="bruteForceSafe()">Start Brute-Force Attack</button>
+
+    <div id="output"></div>
+
+    <script>
+        function bruteForceSafe() {
+            const passcode = document.getElementById('passcode').value;
+            const output = document.getElementById('output');
+            output.innerHTML = "Starting brute-force attack...\n";
+            let attempt = 0;
+            const maxAttempts = Math.pow(10, passcode.length);
+            
+            const interval = setInterval(() => {
+                const attemptStr = String(attempt).padStart(passcode.length, '0');
+                output.innerHTML = `Trying: [${attemptStr}]`;
+
+                if (attemptStr === passcode) {
+                    clearInterval(interval);
+                    output.innerHTML += `\n\nSAFE UNLOCKED! The correct passcode is [${attemptStr}].`;
+                } else if (attempt >= maxAttempts) {
+                    clearInterval(interval);
+                    output.innerHTML += `\n\nMax attempts reached without success.`;
+                }
+                attempt++;
+            }, 10); // Simulate typing effect with delay
+        }
+    </script>
+</body>
+</html>
